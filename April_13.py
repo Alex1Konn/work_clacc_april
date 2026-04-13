@@ -159,6 +159,103 @@ account = BankAccount(1500)
 print(account.__dict__)
 print(account._BankAccount__balance)
 
-
 Использование этих методов не является
+
+class Bank:
+    def __init__(self, name, bank_card, balance):
+        self.__name = name
+        self.__bank_card = bank_card
+        self.__balance = balance
+    def print_balance(self):
+        print(f'Баланс карты {self.__balance}.')
+
+    def change_money(self, money):
+        if money < 0:
+            print(self.__balance + money) # т.к. сразу вводим отрицательное занчение
+
+        else self.__balance <= 0:
+                print(f"Средств не достаточно")
+
+# b = Bank("Vasya", "2200 1234 5678 9010", 1500)
+# b.print_balance()
+b.change_money(-100)
+b.print_balance()
+b.change_money(100)
+b.print_balance()
+
+Декоратор property (getter, setter, deleter)
+
+
+class Person:
+    def __init__(self, name):
+        self.__name = name
+# c посощью свойства геттер дос таем, хотя оно и неявно тут
+    @property
+    def name(self):
+        return self.__name
+
+person = Person('Vasya')
+print(person.name)
+
+
+class Person:
+    def __init__(self, name):
+        self.__name = name
+# c посощью свойства геттер дос таем, хотя оно и неявно тут
+    @property
+    def name(self):
+        return self.__name
+#сеттер позволяет изменить приватный атрибут
+    @name.setter
+    def name(self, value):
+        self.__name = value
+
+person = Person('John')
+print(person.name)
+
+person.name = 'Vasya'
+print(person.name)
+
+
+class Person:
+    def __init__(self, name):
+        self.__name = name
+# c посощью свойства геттер дос таем, хотя оно и неявно тут
+    @property
+    def name(self):
+        return self.__name
+#сеттер позволяет изменить приватный атрибут
+    @name.deleter
+    def name(self):
+        del self.__name
+
+person = Person('John')
+print(person.__dict__)
+del person.name
+print(person.__dict__)
 """
+class MagicBank:
+    def __init__(self, account, balance):
+        self.__account = account
+        self.__balance = balance
+
+    @property
+    def happy_balance(self):
+        return self.__balance
+
+    @happy_balance.setter
+    def happy_balance(self, value):
+        self.__balance = value
+
+    @happy_balance.deleter
+    def value(self):
+        self.__balance = 0
+
+
+id_1 = MagicBank('Машенька', 500)
+print(id_1.happy_balance)
+id_1.happy_balance = 1000
+print(id_1.happy_balance)
+
+del id_1.happy_balance
+print(id_1.happy_balance)
