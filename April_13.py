@@ -220,11 +220,9 @@ print(person.name)
 class Person:
     def __init__(self, name):
         self.__name = name
-# c посощью свойства геттер дос таем, хотя оно и неявно тут
     @property
     def name(self):
         return self.__name
-#сеттер позволяет изменить приватный атрибут
     @name.deleter
     def name(self):
         del self.__name
