@@ -210,39 +210,71 @@ print(f'Элемент {target} найден на позиции {result}' if re
 
 # for _ in range(1000000):
 #     pass
-
+"""
 #1
 
-def logger(func):
-    def wrapper(*args):
-        print(f" Вызывается функция {func.__name__} с аргументами {args}")
-        func(*args)
-    return wrapper
-
-@logger
-def my_logger(a, b):
-    return a + b
-
-my_logger(10, 20)
-"""
-#3
-
-# def call_counter(func):
+# def logger(func):
 #     def wrapper(*args):
+#         print(f" Вызывается функция {func.__name__} с аргументами {args}")
+#     return wrapper
+#
+# @logger
+# def my_logger(a, b):
+#     return a + b
+#
+# my_logger(10, 20)
 
+#3
+"""
 def call_counter(func):
+    count = 0
     def wrapper(*args, **kwargs):
-        for i in range(num_times):
-            num_times = i + 1
+        for _ in range(count):
+            count += 1
             result = func(*args, **kwargs)
-            return f'Счетчик {num_times} функция {result}'
+            return f'Счетчик {count} функция {result}'
         return wrapper
     return call_counter
 
 @call_counter
 def say_hello(name):
     print(f"Hello, {name}!")
+    return name
 
-say_hello("ИМЯ")
-say_hello("ИМЯ")
-say_hello("ИМЯ")
+say_hello("Иван")
+say_hello("Мария")
+print(say_hello("Петр"))
+
+
+def call_counter(num_times): # Теперь передаем количество повторов
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            results = []
+            for i in range(num_times):
+                res = func(*args, **kwargs)
+                results.append(f"Вызов {i + 1}: {res}")
+            return "\n".join(results)
+        return wrapper
+    return decorator
+
+@call_counter(3) # Указываем, сколько раз запустить функцию
+def say_hello(name):
+    return f"Hello, {name}!"
+
+print(say_hello("ИМЯ"))
+"""
+
+def repeat(n):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for _ in range(n):
+                result = func(*args, **kwargs)
+            return result
+        return wrapper
+    return decorator
+
+@repeat(n=3)
+def print_hello():
+    print("Hello")
+
+print_hello()
